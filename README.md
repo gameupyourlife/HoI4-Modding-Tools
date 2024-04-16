@@ -7,6 +7,18 @@ A toolset for HOI4 modder
 ### State Tool
 Change Owner, Controller and sets core of given country for given States  
 
+# Usage
+Edit in file
+
+- Input StateIds you want to change to given Tag\
+`states_to_alter = [665, 458]`
+
+- Tag the states will be changed to\
+`country_tag = "<TAG>" # States will be owned by this country`
+
+- Enter your mod \
+`directoryPath = "<your mod>/history/states/"`
+
 ### Tag Map Clean Tool
 Removes all claims and cores form all states for every country which does not own said state
 
