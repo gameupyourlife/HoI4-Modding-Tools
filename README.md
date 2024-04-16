@@ -7,7 +7,7 @@ A toolset for HOI4 modder
 ### State Tool
 Change Owner, Controller and sets core of given country for given States  
 
-# Usage
+#### Usage
 Edit in file
 
 - Input StateIds you want to change to given Tag\
