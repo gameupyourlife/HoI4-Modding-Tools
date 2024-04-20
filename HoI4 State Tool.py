@@ -20,7 +20,9 @@ def replace(file_path):
             for line in old_file:
                 # If the file has the right id, set the flag to true and proceed to alter the file
                 # If the file has the wrong id, set the flag to false and return to save time and look for the right file
-                if line.find("id") != -1:
+                idIndex = line.find("id")
+                commentIndex = line.find("#")
+                if (idIndex != -1) & ((commentIndex > idIndex) or (commentIndex == -1)):
                     curId = int(line[line.rfind("=")+1:line.rfind("#")].strip())
                     if curId in states_to_alter:
                         is_searched_state = True
