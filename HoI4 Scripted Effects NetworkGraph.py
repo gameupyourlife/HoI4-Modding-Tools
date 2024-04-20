@@ -13,8 +13,8 @@ import math
 
 # Will go through all scripted effects, collect which effect declares wich variable. Than it will go throug once againg and will check which effect uses which variable and will add an edge between them. This will result in a graph where the nodes are the effects and the edges show which effect has do call which other effects because it uses its variables.
 # CHANGE THIS TO YOUR PATH
-directoryPath = "<your mod>/common/scripted_effects"
-varPrefix = "<your prefix>"
+directoryPath = "C:/Users/cedri/Documents/Paradox Interactive/Hearts of Iron IV/mod/EBF-Economy/common/scripted_effects"
+varPrefix = "ebf_economy"
 ###
 
 G = nx.DiGraph()
