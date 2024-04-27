@@ -5,7 +5,7 @@ from os import fdopen, remove
 
 # INPUT
 # This program will remove every resource owned by given country tag
-country_tag = "GER" # Set to "ALL" to remove all resources
+country_tag = "ALL" # Set to "ALL" to remove all resources
 directoryPath = "C:/Users/cedri/Documents/GitHub/HoI4-Modding-Tools" # Replace <your-mod-path> with the path to your mod
 remove_factory = True # Set to True to remove factories as well
 
@@ -25,15 +25,14 @@ def replace(file_path):
                             is_searched_state = True
                             break
 
+    if is_searched_state:
         with fdopen(fh,'w') as new_file:
+            lines = []
             with open(file_path) as old_file:
                 lines = old_file.readlines()
                 for i in range(len(lines)):
                     line = lines[i]
                     # Replace the owner and add_core_of lines with the new country tag
-
-
-
                     if isInLineAndNoteCommeted(line, "buildings") and (remove_factory):
                         has_to_be_removed = True
                     if isInLineAndNoteCommeted(line, "resources"):
@@ -42,6 +41,7 @@ def replace(file_path):
                     if(has_to_be_removed):
                         CommentOutLineInsideBracketIndex(lines, i)
                         has_to_be_removed = False
+
             new_file.writelines(lines)
 
 
