@@ -7,7 +7,7 @@ from os import fdopen, remove
 # This program will remove every resource owned by given country tag
 country_tag = "GER" # Set to "ALL" to remove all resources
 directoryPath = "C:/Users/cedri/Documents/GitHub/HoI4-Modding-Tools" # Replace <your-mod-path> with the path to your mod
-remove_factory = False # Set to True to remove factories as well
+remove_factory = True # Set to True to remove factories as well
 
 def replace(file_path):
     #Create temp file
