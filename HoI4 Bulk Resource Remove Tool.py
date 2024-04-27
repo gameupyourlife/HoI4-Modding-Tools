@@ -6,13 +6,14 @@ from os import fdopen, remove
 # INPUT
 # This program will remove every resource owned by given country tag
 country_tag = "GER" # Set to "ALL" to remove all resources
-directoryPath = "<your-mod-path>/history/states/" # Replace <your-mod-path> with the path to your mod
+directoryPath = "C:/Users/cedri/Documents/GitHub/HoI4-Modding-Tools" # Replace <your-mod-path> with the path to your mod
+remove_factory = False # Set to True to remove factories as well
 
 def replace(file_path):
     #Create temp file
     fh, abs_path = mkstemp()
     is_searched_state = False
-    is_in_resources = False
+    has_to_be_removed = False
 
     if country_tag == "ALL":
         is_searched_state = True
@@ -24,20 +25,24 @@ def replace(file_path):
                             is_searched_state = True
                             break
 
-    with fdopen(fh,'w') as new_file:
+        with fdopen(fh,'w') as new_file:
             with open(file_path) as old_file:
-                for line in old_file:
+                lines = old_file.readlines()
+                for i in range(len(lines)):
+                    line = lines[i]
                     # Replace the owner and add_core_of lines with the new country tag
-                
+
+
+
+                    if (line.find("buildings") != -1) and (remove_factory):
+                        has_to_be_removed = True
                     if (line.find("resources") != -1):
-                        is_in_resources = True
-                    if (line.find("}") != -1) & (is_in_resources):
-                        is_in_resources = False
-                        new_file.write("# " + line)
-                    elif(is_in_resources):
-                        new_file.write("# " + line)
-                    else:
-                        new_file.write(line)
+                        has_to_be_removed = True
+                    
+                    if(has_to_be_removed):
+                        CommentOutLineInsideBracketIndex(lines, i)
+                        has_to_be_removed = False
+            new_file.writelines(lines)
 
 
     #Copy the file permissions from the old file to the new file
@@ -47,6 +52,35 @@ def replace(file_path):
     #Move new file
     move(abs_path, file_path)
 
+def CommentOutLineInsideBracketIndex(lines, index):
+    nestIndex = 0
+    line = lines[index]
+    lines[index] = "# " + lines[index]
+    if isInLineAndNoteCommeted(line, "{"):
+        nestIndex += 1
+    if  isInLineAndNoteCommeted(line, "}"):
+        nestIndex -= 1
+    index += 1
+    while nestIndex > 0:
+        line = lines[index]
+        lines[index] = "# " + lines[index]
+        if isInLineAndNoteCommeted(line, "{"):
+            nestIndex += 1
+        if  isInLineAndNoteCommeted(line, "}"):
+            nestIndex -= 1
+        index += 1
+    return (line, lines, index)
+
+def isInLineAndNoteCommeted(line, search_term):
+    # Check whether the line contains the search term and is not in a comment
+    index = line.find(search_term)
+    commentIndex = line.find("#")
+    if index != -1 and ((commentIndex > index) or (commentIndex == -1)):
+        return True
+    return False
+
+
+directoryPath = os.path.join(directoryPath, "history/states")
 for filename in os.listdir(directoryPath):
     path = os.path.join(directoryPath, filename)
     replace(path)
