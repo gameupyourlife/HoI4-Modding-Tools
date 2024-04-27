@@ -34,9 +34,9 @@ def replace(file_path):
 
 
 
-                    if (line.find("buildings") != -1) and (remove_factory):
+                    if isInLineAndNoteCommeted(line, "buildings") and (remove_factory):
                         has_to_be_removed = True
-                    if (line.find("resources") != -1):
+                    if isInLineAndNoteCommeted(line, "resources"):
                         has_to_be_removed = True
                     
                     if(has_to_be_removed):
